@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wang Yangming's Community Compact</title>
+    <style>
+        body { 
+            margin: 0; 
+            background-image: url("https://empyreantrail.wordpress.com/wp-content/uploads/2023/03/wang-yangming-world-1.jpg?w=920&h=666&crop=1"); 
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+            display: flex; justify-content: center; align-items: center; 
+            height: 100vh; width: 100vw; overflow: hidden; font-family: 'Georgia', serif; 
+            box-shadow: inset 0 0 300px rgba(0,0,0,0.9); 
+        }
+
+        .room { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; }
+
+        .book { 
+            position: relative; 
+            width: 400px; 
+            height: 550px; 
+            perspective: 1500px; 
+            margin-left: 200px; 
+            box-shadow: 5px 0 15px rgba(0,0,0,0.3);
+        }
+
+        /* The Spine */
+        /* Replace the "Pole" with a Natural Binding Sink */
+.book::after {
+    content: "";
+    position: absolute;
+    left: -2px; /* Sits right at the fold */
+    top: 0;
+    width: 20px; /* A wider area for a soft shadow */
+    height: 100%;
+    /* This creates a soft shadow that looks like the pages are curving into the spine */
+    background: linear-gradient(to right, 
+        rgba(0,0,0,0.3) 0%, 
+        rgba(0,0,0,0) 100%);
+    z-index: 100;
+    pointer-events: none; /* Allows you to still click the pages underneath */
+}
+
+/* Optional: Add a matching shadow on the left side of the spine */
+.book::before {
+    content: "";
+    position: absolute;
+    left: -20px; 
+    top: 0;
+    width: 20px;
+    height: 100%;
+    background: linear-gradient(to left, 
+        rgba(0,0,0,0.3) 0%, 
+        rgba(0,0,0,0) 100%);
+    z-index: 100;
+    pointer-events: none;
+}
+
+        /* Initial Stacking: Higher numbers are "on top" */
+#p1 { z-index: 6; } 
+#p2 { z-index: 5; } 
+#p3 { z-index: 4; } 
+#p4 { z-index: 3; } 
+#p5 { z-index: 2; } 
+#p6 { z-index: 1; }
+
+        /* Static Back Cover */
+        .book-back {
+    position: absolute;
+    /* Use exactly the same dimensions as your .page */
+    width: 400px; 
+    height: 550px;
+    top: 0;
+    left: 0;
+    background-color: #4a3728;
+    background-image: url("https://transparenttextures.com");
+    border: 2px solid #2c1e14;
+    border-radius: 0 5px 5px 0;
+    z-index: -5;
+    box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+    
+    /* This prevents the border from making the box bigger */
+    box-sizing: border-box; 
+}
+
+
+        .page { position: absolute; width: 100%; height: 100%; top: 0; left: 0; transform-origin: left; transform-style: preserve-3d; transition: transform 1s; z-index: 1; }
+
+        #p1 { z-index: 3; } #p2 { z-index: 2; } #p3 { z-index: 1; } #p4 { z-index: 0; }
+
+        .front, .back {
+            position: absolute; width: 100%; height: 100%; top: 0; left: 0; 
+            background-color: #f4e4bc; 
+            background-image: url("https://transparenttextures.com"); 
+            padding: 35px; box-sizing: border-box; backface-visibility: hidden; 
+            border: 1px solid #d4a373; outline: 8px solid transparent; outline-offset: -15px;
+            box-shadow: inset 0 0 80px rgba(139, 90, 43, 0.2), 5px 5px 15px rgba(0,0,0,0.3); 
+            overflow-y: auto;
+        }
+
+        .incident-report { font-family: 'Courier New', Courier, monospace; background-color: #fdf2e2 !important; border: 2px dashed #d32f2f !important; }
+        .report-header { background-color: #d32f2f; color: white; text-align: center; padding: 5px; font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; letter-spacing: 2px; }
+        .report-field { border-bottom: 1px solid #dcd0c0; margin-bottom: 10px; padding-bottom: 5px; font-size: 0.85rem; }
+        .report-field b { color: #5d4037; text-transform: uppercase; }
+        .official-stamp { border: 3px solid #d32f2f; color: #d32f2f; padding: 5px 15px; font-weight: bold; text-transform: uppercase; display: inline-block; transform: rotate(-15deg); margin: 20px 0; opacity: 0.8; border-radius: 4px; }
+
+        #p1 .front { background-color: #5d4037; background-image: url("https://transparenttextures.com"); color: #f4e4bc; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; outline: 5px double #d4af37; outline-offset: -20px; }
+        .back { transform: rotateY(180deg); background-color: #ede0c1; }
+        .flipped { transform: rotateY(-180deg); }
+
+        h2 { font-variant: small-caps; color: #5d4037; border-bottom: 2px solid #8b5a2b; text-align: center; margin-top: 0; padding-bottom: 5px; }
+        .first-letter { float: left; font-size: 3.5rem; line-height: 1; font-weight: bold; margin-right: 10px; color: #8b5a2b; text-shadow: 1px 1px 0px #d4af37; }
+        .quote-box { background: rgba(139, 90, 43, 0.12); border-left: 5px solid #8b5a2b; padding: 15px; margin: 20px 0; font-style: italic; font-size: 0.85rem; line-height: 1.4; }
+
+        /* Specifically recolor the back of the chicken report page */
+#p4 .back {
+    background-color: #fdf2e2 !important;
+    background-image: none; /* Removes the parchment map texture for a cleaner look */
+}
+        .front, .back, .book-back {
+    border-radius: 0 5px 5px 0; /* Smooths out the outer corners */
+}
+
+        .wang-seal {
+    width: 60px;
+    height: 60px;
+    border: 3px solid #d32f2f;
+    color: #d32f2f;
+    font-weight: bold;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 10px auto;
+    /* This makes it look like a hand-pressed stamp */
+    transform: rotate(5deg);
+    opacity: 0.8;
+    background: rgba(211, 47, 47, 0.05);
+}
+
+        button { padding: 12px 25px; cursor: pointer; background: #8b5a2b; color: #fff5e6; border: none; border-radius: 4px; font-weight: bold; box-shadow: 0 4px #5d4037; transition: all 0.1s; }
+        button:hover { background: #5d4037; transform: translateY(1px); box-shadow: 0 3px #2c1e14; }
+        button:active { transform: translateY(4px); box-shadow: none; }
+    </style>
+</head>
+<body>
+    <div class="room">
+        <div class="book" id="book">
+            <div class="book-back"></div>
+            
+            <div class="page" id="p1">
+                <div class="front">
+                    <h1 style="font-family: serif; color: #d4af37; margin:0;">THE COMMUNITY COMPACT</h1>
+                    <p style="font-style: italic; border-top: 1px solid #d4af37; padding-top: 10px;">A Lesson by Wang Yangming</p>
+                </div>
+                <div class="back">
+                    <h2>I. The Big Picture</h2>
+                    <p><span class="first-letter">W</span>ang Yangming (1472-1529) was a general and a philosopher. He was sent to govern regions filled with crime and rebellion.</p>
+                    <p>Instead of just using iron-fisted laws, he wanted to reach the <b>heart</b>. He believed every human has an "Innate Knowledge" of good.</p>
+                    <div class="quote-box">"The faculty of innate knowledge is to know good and evil. The investigation of things is to do good and to remove evil." (p. 243)</div>
+                </div>
+            </div>
+
+            <div class="page" id="p2">
+                <div class="front">
+                    <h2>II. The Mirror & Dust</h2>
+                    <p><span class="first-letter">L</span>iangzhi (Innate Knowledge) is like a mirror. It is naturally bright and reflects what is right.</p>
+                    <p>However, selfish desires and bad habits are like <b>dust</b> that covers the mirror. The Community Compact is a way for the village to "polish" their mirrors together.</p>
+                    <div class="quote-box">"People's minds are dominated by habits... if we do not teach them concretely... all that they do will not be genuine." (p. 243)</div>
+                </div>
+                <div class="back">
+                    <h2>III. The Four Pillars</h2>
+                    <p><span class="first-letter">H</span>ere is the "Meat" of the compact. It had 4 main goals:</p>
+                    <ul>
+                        <li><b>Encourage Virtue:</b> Rewards for good deeds.</li>
+                        <li><b>Reform Faults:</b> Private correction of mistakes.</li>
+                        <li><b>Rites:</b> Respectful traditions.</li>
+                        <li><b>Compassion:</b> Mutual aid for the poor.</li>
+                    </ul>
+                    <div class="quote-box">"The great man regards Heaven and earth and the myriad things as one body." (p. 272)</div>
+                </div>
+            </div>
+
+            <div class="page" id="p3">
+                <div class="front">
+                    <h2>IV. Teaching with Joy</h2>
+                    <p><span class="first-letter">W</span>ang believed forced virtue was fake. To teach the compact, he used music and poetry to make the heart happy.</p>
+                    <div class="quote-box">"Children like to play... like the sprouting of grass... if they are destroyed by excessive restraint, they will wither." (p. 182)</div>
+                </div>
+                <div class="back">
+                    <h2>V. Knowing is Doing</h2>
+                    <p><span class="first-letter">T</span>he final takeaway: Knowledge and Action are <b>One</b>. You don't "study" the compact; you live it.</p>
+                    <div class="quote-box">"Knowledge is the beginning of practice; doing is the completion of knowing." (p. 10)</div>
+                </div>
+            </div>
+
+            <div class="page" id="p4">
+                <div class="front incident-report">
+                    <div class="report-header">COMMUNITY VIOLATION</div>
+                    <div class="report-field"><b>Offender:</b> Neighbor Zhang</div>
+                    <div class="report-field"><b>Location:</b> Southern Hen-Coop</div>
+                    <div class="report-field"><b>Description:</b> Attempted chicken larceny.</div>
+                    <div class="report-field"><b>Statement:</b> Zhang claimed his <em>Liangzhi</em> told him the chicken "looked lonely."</div>
+                    <p style="margin-top: 20px; font-weight: bold; color: #5d4037;">Magistrate Wang’s Ruling:</p>
+                    <p style="font-size: 0.85rem; line-height: 1.4;">"Zhang has confused <em>Liangzhi</em> with 'Hunger.' As punishment, Zhang will repair the village fence. Action and Knowledge are one—especially when chickens are involved."</p>
+                    <div style="text-align: center;"><div class="official-stamp">Refined via Practice</div></div>
+                </div>
+                <div class="back" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                    <h2>The Final Lesson</h2>
+                    <p>By treating the village as "One Body," even a chicken thief can be brought back into harmony.</p>
+                    <hr style="width: 50%; border: 1px solid #8b5a2b; margin: 20px 0;">
+                    <div class="wang-seal">
+    陽明<br>王印
+</div>
+<p style="font-size: 0.6rem; text-align: center;">Master Yangming's Seal of Authenticity</p>
+                </div>
+            </div>
+        </div>
+        <div class="nav-btns">
+            <button id="prevBtn">Previous Page</button>
+            <button id="nextBtn">Next Page</button>
+        </div>
+    </div>
+
+    <script>
+        const prevBtn = document.querySelector("#prevBtn");
+        const nextBtn = document.querySelector("#nextBtn");
+        const p1 = document.querySelector("#p1");
+        const p2 = document.querySelector("#p2");
+        const p3 = document.querySelector("#p3");
+        const p4 = document.querySelector("#p4");
+
+        let currentState = 1;
+
+        nextBtn.addEventListener("click", () => {
+            if (currentState === 1) {
+                p1.style.zIndex = 10; p1.classList.add("flipped");
+                setTimeout(() => { p1.style.zIndex = 1; }, 1000);
+                currentState++;
+            } else if (currentState === 2) {
+                p2.style.zIndex = 10; p2.classList.add("flipped");
+                setTimeout(() => { p2.style.zIndex = 2; }, 1000);
+                currentState++;
+            } else if (currentState === 3) {
+                p3.style.zIndex = 10; p3.classList.add("flipped");
+                setTimeout(() => { p3.style.zIndex = 3; }, 1000);
+                currentState++;
+            } else if (currentState === 4) {
+                p4.style.zIndex = 10; p4.classList.add("flipped");
+                setTimeout(() => { p4.style.zIndex = 4; }, 1000);
+                currentState++;
+            }
+        });
+
+        prevBtn.addEventListener("click", () => {
+            if (currentState === 2) {
+                p1.style.zIndex = 10; p1.classList.remove("flipped");
+                setTimeout(() => { p1.style.zIndex = 3; }, 1000);
+                currentState--;
+            } else if (currentState === 3) {
+                p2.style.zIndex = 10; p2.classList.remove("flipped");
+                setTimeout(() => { p2.style.zIndex = 2; }, 1000);
+                currentState--;
+            } else if (currentState === 4) {
+                p3.style.zIndex = 10; p3.classList.remove("flipped");
+                setTimeout(() => { p3.style.zIndex = 1; }, 1000);
+                currentState--;
+            } else if (currentState === 5) {
+                p4.style.zIndex = 10; p4.classList.remove("flipped");
+                setTimeout(() => { p4.style.zIndex = 0; }, 1000);
+                currentState--;
+            }
+        });
+    </script>
+</body>
+</html>
