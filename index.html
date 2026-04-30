@@ -22,7 +22,7 @@
             height: 550px; 
             perspective: 1500px; 
             margin-left: 200px; 
-            box-shadow: 5px 0 15px rgba(0,0,0,0.3);
+            box-shadow: 5px 0px 15px rgba(0,0,0,0.3);
         }
 
         /* The Spine */
@@ -78,7 +78,7 @@
     border: 2px solid #2c1e14;
     border-radius: 0 5px 5px 0;
     z-index: -5;
-    box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
     
     /* This prevents the border from making the box bigger */
     box-sizing: border-box; 
@@ -148,27 +148,40 @@
     margin-top: 10px;
 }
 
-/* Customizing the slider track and thumb */
 #volumeSlider {
-    -webkit-appearance: none; /* For Chrome, Safari, and Opera */
-    appearance: none;         /* Standard property for compatibility */
-    width: 100px;
-    height: 4px;
-    background: #8b5a2b; 
+    -webkit-appearance: none;
+    appearance: none;
+    width: 8px;
+    height: 100px;
+    background: #8b5a2b; /* This is your track color */
     outline: none;
     border-radius: 2px;
+    cursor: pointer;
+    /* This kills the default purple in modern browsers */
+    accent-color: #8b5a2b; 
 }
 
+/* Chrome, Safari, Edge, and Opera */
 #volumeSlider::-webkit-slider-thumb {
-    -webkit-appearance: none; /* Removes default styling on the knob */
-    appearance: none;         /* Standard property for the knob */
-    width: 12px;
-    height: 12px;
-    background: #f4e4bc; 
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #f4e4bc;
+    border: 2px solid #5d4037;
+    border-radius: 50%;
+}
+
+/* Firefox Support (Fixes the purple thumb in Firefox) */
+#volumeSlider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #f4e4bc;
     border: 2px solid #5d4037;
     border-radius: 50%;
     cursor: pointer;
 }
+
 
 
 .music-console {
@@ -348,14 +361,232 @@
     filter: drop-shadow(8px 8px 15px rgba(0,0,0,0.5)) opacity(0.9);
     z-index: 5000;
      cursor: pointer; /* Changes the mouse to a hand icon */
-    transition: transform 0.2s ease;
+    transition: all 0.3s ease;
     position: absolute;
     pointer-events: auto !important; 
 }
 
-.tea-set:active {
-    transform: scale(0.95) rotate(5deg); /* Tilts slightly when clicked */
+.tea-set:hover {
+    filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.8)) brightness(1.1);
+    transform: scale(1.05) rotate(20deg); /* Slight grow and tilt */
 }
+
+.tea-set:active {
+    transform: scale(0.95) rotate(10deg); /* Tilts slightly when clicked */
+    transition: transform 0.1s;
+}
+
+.welcome-modal {
+    position: fixed;
+    z-index: 9999; /* Highest priority */
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.8); /* Dim background heavily */
+    display: flex; align-items: center; justify-content: center;
+}
+
+.welcome-content {
+    background: #f4e4bc;
+    background-image: url("https://transparenttextures.com");
+    border: 8px double #8b5a2b;
+    padding: 40px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    max-width: 400px;
+}
+
+.welcome-btns {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+#yesMusic { background: #8b5a2b; }
+#noMusic { background: #5d4037; opacity: 0.8; }
+
+.verdict-box {
+    display: none; /* Controlled by JS */
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fdf2e2; /* Matches the Incident Report paper */
+    border: 2px solid #8b5a2b;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+    text-align: center;
+    z-index: 3010; /* Ensures it stays on top of everything */
+    position: relative;
+}
+
+.verdict-box p {
+    margin: 0 0 15px 0;
+    color: #5d4037;
+    font-weight: bold;
+}
+
+.verdict-box button {
+    margin: 5px;
+    padding: 8px 15px;
+    font-size: 0.8rem;
+    background: #8b5a2b;
+    color: #fff5e6;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.verdict-box button:hover {
+    background: #5d4037;
+    color: white;
+}
+
+.map-thumbnail {
+    position: relative; /* Forces the z-index to work */
+    z-index: 100;       /* Lifts it off the paper */
+    display: block;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border: 2px solid #8b5a2b;
+    cursor: zoom-in;
+}
+
+
+.map-thumbnail:hover { filter: sepia(0); transform: scale(1.02); }
+
+.map-expanded {
+    background: #f4e4bc;
+    background-image: url("https://transparenttextures.com");
+    padding: 30px;
+    border: 5px solid #8b5a2b;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+}
+
+.map-hotspot { position: relative; border: 2px solid #5d4037; }
+
+.map-frame {
+    margin-top: 20px;
+    padding: 10px;
+    border: 2px solid #8b5a2b;
+    background: #fdf2e2;
+    position: relative;
+    opacity: 0;
+    transition: opacity 0.5s ease-in 0.8s; /* Waits for flip to finish */
+}
+
+/* Only show the map when Page 1 is flipped open */
+.flipped#p1 .map-frame {
+    opacity: 1;
+}
+
+.final-map-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 20px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.2); /* Subtle overlay to help text pop */
+}
+
+.map-title {
+    color: #d4af37; /* Gold color to match your cover */
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.map-frame-final {
+    width: 85%;
+    border: 3px solid #d4af37; /* Gold frame */
+    padding: 5px;
+    background: #fdf2e2; /* Parchment background inside frame */
+    position: relative;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    pointer-events: none; 
+}
+
+.map-frame-final .map-static {
+    width: 100%;
+    height: auto; /* Maintains the correct aspect ratio */
+    object-fit: contain; /* Prevents stretching and distortion */
+    image-rendering: auto; /* Ensures smooth rendering for large images */
+    
+    /* Optional: For small maps that look pixelated when large */
+    image-rendering: -webkit-optimize-contrast; 
+    filter: sepia(0.4) contrast(1.1); /* Historical aging effect */
+}
+
+.map-quote {
+    color: #f4e4bc;
+    font-size: 0.65rem;
+    font-style: italic;
+    margin-top: 15px;
+    padding: 0 15px;
+    line-height: 1.4;
+}
+
+.map-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.9);
+    z-index: 9999; /* Ensure it's above the 3D book */
+    justify-content: center;
+    align-items: center;
+}
+
+.map-overlay img {
+    max-width: 90%;
+    max-height: 90%;
+    /* Use scale instead of width/height for smooth, non-breaking expansion */
+    transform: scale(1);
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+.close-overlay {
+    position: absolute;
+    top: 20px; right: 40px;
+    color: white; font-size: 50px; cursor: pointer;
+}
+
+
+.map-static {
+    width: 100%;
+    height: auto; /* Maintains the correct aspect ratio */
+    object-fit: contain; /* Prevents stretching and distortion */
+    image-rendering: auto; /* Ensures smooth rendering for large images */
+    
+    /* Optional: For small maps that look pixelated when large */
+    image-rendering: -webkit-optimize-contrast; 
+}
+
+/* Update these values in your .book-back .pin styles */
+.pin {
+    position: absolute;
+    top: 72%;  /* Moves it toward the southern inland region */
+    left: 58%; /* Positions it in the eastern-central longitudinal area */
+    font-size: 1.5rem;
+    pointer-events: none; /* Keeps it non-interactive */
+    animation: bounce 2s infinite;
+}
+
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.close-map { position: absolute; top: 10px; right: 20px; font-size: 30px; cursor: pointer; color: #8b5a2b; }
 
 .bg-char {
     position: fixed;
@@ -426,6 +657,18 @@
 </head>
 <body>
 
+    <!-- Music Invitation Popup -->
+<div id="welcomePopup" class="welcome-modal">
+    <div class="welcome-content">
+        <h2 style="color: #8b5a2b; border-bottom: 2px solid #8b5a2b;">Welcome to the Study</h2>
+        <p>Would you like to listen to traditional melodies while you study the Community Compact?</p>
+        <div class="welcome-btns">
+            <button id="yesMusic">Yes, Play Music 🎶</button>
+            <button id="noMusic">Enter Silently 🤫</button>
+        </div>
+    </div>
+</div>
+
     <div class="bg-char char-left">德</div>
 <div class="bg-char char-right">心</div>
 
@@ -448,7 +691,7 @@
                     <p><span class="first-letter">W</span>ang Yangming (1472-1529) was a general and a philosopher. He was sent to govern regions filled with crime and rebellion.</p>
                     <p>Instead of just using iron-fisted laws, he wanted to reach the <b>heart</b>. He believed every human has an "Innate Knowledge" of good.</p>
                     <div class="quote-box">"The faculty of innate knowledge is to know good and evil. The investigation of things is to do good and to remove evil." (pp. 243)
-</div>
+                </div>
                 </div>
             </div>
 
@@ -509,6 +752,28 @@
 <p style="font-size: 0.6rem; text-align: center;">Master Yangming's Seal of Authenticity</p>
                 </div>
             </div>
+            <div class="book-back">
+    <div class="final-map-container">
+        <!-- Title for the map artifact -->
+        <h3 class="map-title">PREFECTURE OF GANNAN</h3>
+        
+        <div class="map-frame-final">
+            <!-- Your saved map image -->
+            <img src="gannanMap.jpg" 
+     id="gannanMap" 
+     class="map-thumbnail" 
+     style="background-color: #d4a373; height: 150px; object-fit: cover;"
+     alt="Click to expand map">
+            <!-- Optional: The bouncing pin to show the primary location -->
+            <div class="pin" style="top: 72%; left: 58%;">📍</div>
+        </div>
+        
+        <p class="map-quote">
+            "The mountains are high and the rivers long; may the peace of the Compact endure."
+        </p>
+    </div>
+</div>
+
         </div>
         <div class="nav-btns">
             
@@ -518,7 +783,7 @@
     
     <div class="volume-container">
         <label>Volume</label>
-        <input type="range" id="volumeSlider" min="0" max="100" value="50">
+        <input type="range" id="volumeSlider" min="0" max="100" value="10">
     </div>
 </div>
             <button id="prevBtn">Previous Page</button>
@@ -545,6 +810,31 @@
         <div class="speech-bubble">
             "Psst! Did you hear? Zhang's at it again. He's got 'lonely' chickens in his pockets! Don't let him tell you it's his <em>Liangzhi</em> acting up..."
         </div>
+        <div class="verdict-box" id="verdictBox" style="display:none;">
+    <p><strong>Your Verdict, Magistrate?</strong></p>
+    <button onclick="judge('punish')">Punish: 50 Lashes</button>
+    <button onclick="judge('reform')">Reform: Fix the Fence</button>
+</div>
+    </div>
+</div>
+
+<!-- Hidden Map Modal (Expanded View) -->
+<div id="mapModal" class="villager-modal" style="z-index: 4000;">
+    <div class="map-expanded">
+        <span class="close-map">&times;</span>
+        <h2 style="border-bottom: 2px solid #8b5a2b; padding-bottom: 5px;">The Region of Gannan</h2>
+        <p style="font-size: 0.85rem; color: #5d4037; margin-bottom: 15px;">
+            Wang Yangming implemented the first Compact here in 1518 to restore order to the mountainous villages of southern Jiangxi.
+        </p>
+        <div class="map-hotspot">
+           <img src="https://transparenttextures.com" 
+     style="width: 100%; height: 400px; background-color: #d4a373; border: 1px solid #8b5a2b;" 
+     alt="Gannan Detailed View">
+
+            <!-- The bouncing pin -->
+            <div class="pin" style="top: 62%; left: 48%;">📍</div>
+        </div>
+        <p style="font-size: 0.7rem; margin-top: 10px; font-style: italic;">Southern Kiangsi Province</p>
     </div>
 </div>
 
@@ -558,8 +848,16 @@ const p4 = document.querySelector("#p4");
 const modal = document.getElementById("villagerPopup");
 const closeBtn = document.querySelector(".close-popup");
 const music = document.getElementById('bgMusic');
+        music.volume = 0.1; 
 const musicBtn = document.getElementById('musicToggle');
 const volumeSlider = document.getElementById('volumeSlider');
+const welcomeModal = document.getElementById("welcomePopup");
+const yesBtn = document.getElementById("yesMusic");
+const noBtn = document.getElementById("noMusic");
+const mapImg = document.getElementById("gannanMap");
+const mapModal = document.getElementById("mapModal");
+const closeMap = document.querySelector(".close-map");
+
 
 let currentState = 1;
 
@@ -573,13 +871,17 @@ nextBtn.addEventListener("click", () => {
         setTimeout(() => { p2.style.zIndex = 2; }, 1000);
         currentState++;
     } else if (currentState === 3) {
-        p3.style.zIndex = 10; p3.classList.add("flipped");
-        setTimeout(() => { p3.style.zIndex = 3; }, 1000);
-        
-        // TRIGGER POPUP: Only when flipping to the report
-        setTimeout(() => { modal.style.display = "flex"; }, 100); 
-        
-        currentState++;
+    p3.style.zIndex = 10;
+    p3.classList.add("flipped");
+    setTimeout(() => { p3.style.zIndex = 3; }, 1000);
+    
+    // TRIGGER POPUP AND VERDICT BOX
+    setTimeout(() => { 
+        modal.style.display = "flex"; 
+        document.getElementById("verdictBox").style.display = "block"; // <-- ADD THIS LINE
+    }, 100); 
+    
+    currentState++;
     } else if (currentState === 4) {
         p4.style.zIndex = 10; p4.classList.add("flipped");
         setTimeout(() => { p4.style.zIndex = 4; }, 1000);
@@ -638,13 +940,53 @@ if (teapot && teaAudio) {
     teaAudio.currentTime = 0; 
     
     // Set a gentle volume (0.0 to 1.0)
-    teaAudio.volume = 0.5; 
+    teaAudio.volume = 0.4; 
     
     // Play the tea pouring sound
     teaAudio.play();
     
     console.log("Pouring tea for the Master...");
 });
+
+yesBtn.addEventListener("click", () => {
+    music.play();
+    musicBtn.textContent = "Pause Music 🔇";
+    welcomeModal.style.display = "none";
+});
+
+noBtn.addEventListener("click", () => {
+    welcomeModal.style.display = "none";
+});
+
+function judge(choice) {
+    const bubble = document.querySelector(".speech-bubble");
+    const vBox = document.getElementById("verdictBox");
+    
+    if(choice === 'punish') {
+        bubble.innerHTML = "<strong>Master Yangming always says:</strong> 'Lashing only fixes the body, not the mirror of the heart!' <br><br>Action and Knowledge must be reformed together. Turn the page to see the Master's way.";
+    } else {
+        bubble.innerHTML = "<strong>Wise choice!</strong> You are following your <em>Liangzhi</em>. <br><br>Farmer agreed: Zhang must practice virtue to find it again. Turn the page to see the ruling.";
+    }
+    vBox.style.display = "none"; // Hide the buttons after the choice is made
+}
+
+mapImg.onclick = () => mapModal.style.display = "flex";
+closeMap.onclick = () => mapModal.style.display = "none";
+
+// Close map if clicking outside
+window.addEventListener('click', (e) => {
+    if (e.target == mapModal) mapModal.style.display = "none";
+});
+
+mapThumbnail.addEventListener("click", (e) => {
+    e.stopPropagation(); // Prevents the click from flipping the page
+    overlay.style.display = "flex";
+});
+
+document.querySelector(".close-overlay").onclick = () => {
+    overlay.style.display = "none";
+};
+
 }
 </script>
 </body>
