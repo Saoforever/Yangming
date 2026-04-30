@@ -140,12 +140,300 @@
     background: rgba(211, 47, 47, 0.05);
 }
 
+/* Styles the slider container */
+.music-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* Customizing the slider track and thumb */
+#volumeSlider {
+    -webkit-appearance: none; /* For Chrome, Safari, and Opera */
+    appearance: none;         /* Standard property for compatibility */
+    width: 100px;
+    height: 4px;
+    background: #8b5a2b; 
+    outline: none;
+    border-radius: 2px;
+}
+
+#volumeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Removes default styling on the knob */
+    appearance: none;         /* Standard property for the knob */
+    width: 12px;
+    height: 12px;
+    background: #f4e4bc; 
+    border: 2px solid #5d4037;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+
+.music-console {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #f4e4bc; /* Parchment color */
+    border: 2px solid #8b5a2b;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.music-console h3 {
+    font-size: 0.8rem;
+    margin: 0;
+    color: #5d4037;
+    font-variant: small-caps;
+}
+
+.volume-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Make the slider vertical */
+#volumeSlider {
+    writing-mode: bt-lr; /* Bottom to top */
+    -webkit-appearance: slider-vertical; 
+    width: 8px;
+    height: 100px;
+    cursor: pointer;
+}
+
+#musicToggle {
+    width: 100%;
+    padding: 8px;
+    font-size: 0.8rem;
+}
+
+.villager-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 3000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Dim the background */
+    align-items: center; justify-content: center;
+}
+
+.villager-content {
+    position: relative;
+    display: flex;
+    flex-direction: row; /* Side-by-side */
+    align-items: flex-start; /* Aligns them at the top */
+    justify-content: center;
+    gap: 0; /* Removes the gap entirely */
+}
+
+.villager-img {
+    width: 400px; /* Increased from 250px */
+    filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6));
+    animation: slideUp 0.5s ease-out;
+}
+
+.speech-bubble {
+    margin-left: -50px; /* Pulls the bubble closer to the character */
+    margin-top: 20px;   /* Adjust this to match the mouth height */
+    background: #f4e4bc;
+    border: 5px solid #8b5a2b;
+    padding: 20px;
+    border-radius: 40px;
+    width: 350px; /* Slightly narrower to keep it compact */
+    position: relative;
+    box-shadow: 10px 10px 25px rgba(0,0,0,0.4);
+    z-index: 2001;
+}
+
+/* Updated Tail for the side-connection */
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    left: -30px; /* Tail is on the left side now */
+    top: 30px;
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-right: 30px solid #8b5a2b;
+}
+
+.speech-bubble::before {
+    content: '';
+    position: absolute;
+    left: -22px;
+    top: 30px;
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-right: 25px solid #f4e4bc;
+    z-index: 2002;
+}
+
+
+/* Fun wobble animation */
+@keyframes bubbleWobble {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+
+.close-popup {
+    position: absolute;
+    top: -50px; right: 0;
+    color: white; font-size: 40px; cursor: pointer;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.desk-prop {
+    position: absolute;
+    z-index: 5;
+    pointer-events: none;
+    filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)) brightness(0.9) contrast(1.1);
+    transition: opacity 0.5s ease;
+}
+
+.brush {
+    width: 250px;
+    bottom: 30px;
+    left: 2%;
+    transform: rotate(0deg);
+}
+
+/* This makes the area around the brush clickable */
+.brush-link {
+    position: absolute;
+    bottom: 30px; /* Matches your .brush positioning */
+    left: 2%;     /* Matches your .brush positioning */
+    z-index: 20;  /* Higher than the book (which is z-index 1-10) */
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Ensure the image inside the link stays styled correctly */
+.brush-link .brush {
+    position: relative; /* Overrides the absolute in .desk-prop */
+    bottom: 0;
+    left: 0;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Add a gold glow when they hover over the brush so they know it's a link */
+.brush-link:hover .brush {
+    filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.8)) brightness(1.1);
+    transform: scale(1.05) rotate(-5deg);
+}
+
+
+.tea-set {
+    width: 200px;
+    top: 25px;
+    right: 5%;
+    transform: rotate(10deg);
+    filter: drop-shadow(8px 8px 15px rgba(0,0,0,0.5)) opacity(0.9);
+    z-index: 5000;
+     cursor: pointer; /* Changes the mouse to a hand icon */
+    transition: transform 0.2s ease;
+    position: absolute;
+    pointer-events: auto !important; 
+}
+
+.tea-set:active {
+    transform: scale(0.95) rotate(5deg); /* Tilts slightly when clicked */
+}
+
+.bg-char {
+    position: fixed;
+    font-size: 20rem;
+    color: rgba(255, 255, 255, 0.03); /* Extremely faint */
+    z-index: -1;
+    pointer-events: none;
+    font-family: serif;
+}
+
+.char-left { left: 5%; top: 10%; }
+.char-right { right: 5%; bottom: 10%; }
+
         button { padding: 12px 25px; cursor: pointer; background: #8b5a2b; color: #fff5e6; border: none; border-radius: 4px; font-weight: bold; box-shadow: 0 4px #5d4037; transition: all 0.1s; }
         button:hover { background: #5d4037; transform: translateY(1px); box-shadow: 0 3px #2c1e14; }
         button:active { transform: translateY(4px); box-shadow: none; }
+    
+        /* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 768px) {
+    /* 1. Shrink the background effects */
+    .bg-char { font-size: 10rem; }
+    
+    /* 2. Center the book and scale it down to fit the screen */
+    .book { 
+        margin-left: 0; /* Remove the side offset needed for desktop */
+        transform: scale(0.7); /* Shrink the whole book to 70% size */
+    }
+
+    /* 3. Adjust the Villager Popup for smaller screens */
+    .villager-content {
+        flex-direction: column;
+        align-items: center;
+    }
+    .villager-img { width: 250px; }
+    .speech-bubble { 
+        margin-left: 0; 
+        margin-top: -20px; 
+        width: 80vw; 
+        font-size: 1rem;
+    }
+    .speech-bubble::after, .speech-bubble::before { display: none; } /* Hide tail on mobile */
+
+    /* 4. Hide or reposition props so they don't block the book */
+    .brush-link, .tea-set {
+        transform: scale(0.6);
+        bottom: 10px;
+    }
+    .tea-set { top: auto; bottom: 20px; right: 2%; }
+
+    /* 5. Move the music console so it doesn't block the 'Next' button */
+    .music-console {
+        left: 10px;
+        right: auto;
+        bottom: 10px;
+        padding: 10px;
+    }
+    #volumeSlider { height: 50px; }
+}
+
+@media (max-width: 480px) {
+    .book { transform: scale(0.5); } /* Even smaller for tiny phones */
+    h2 { font-size: 1.2rem; }
+    p { font-size: 0.8rem; }
+    .first-letter { font-size: 2.5rem; }
+}
+
     </style>
 </head>
 <body>
+
+    <div class="bg-char char-left">德</div>
+<div class="bg-char char-right">心</div>
+
+
+    <audio id="bgMusic" loop>
+        <source src="bg-music.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="room">
         <div class="book" id="book">
             <div class="book-back"></div>
@@ -159,7 +447,8 @@
                     <h2>I. The Big Picture</h2>
                     <p><span class="first-letter">W</span>ang Yangming (1472-1529) was a general and a philosopher. He was sent to govern regions filled with crime and rebellion.</p>
                     <p>Instead of just using iron-fisted laws, he wanted to reach the <b>heart</b>. He believed every human has an "Innate Knowledge" of good.</p>
-                    <div class="quote-box">"The faculty of innate knowledge is to know good and evil. The investigation of things is to do good and to remove evil." (p. 243)</div>
+                    <div class="quote-box">"The faculty of innate knowledge is to know good and evil. The investigation of things is to do good and to remove evil." (pp. 243)
+</div>
                 </div>
             </div>
 
@@ -168,7 +457,7 @@
                     <h2>II. The Mirror & Dust</h2>
                     <p><span class="first-letter">L</span>iangzhi (Innate Knowledge) is like a mirror. It is naturally bright and reflects what is right.</p>
                     <p>However, selfish desires and bad habits are like <b>dust</b> that covers the mirror. The Community Compact is a way for the village to "polish" their mirrors together.</p>
-                    <div class="quote-box">"People's minds are dominated by habits... if we do not teach them concretely... all that they do will not be genuine." (p. 243)</div>
+                    <div class="quote-box">"As the habits of memorization, recitation, and the writing of flowery compositions of later generations arose, the teachings of ancient kings disappeared." (p. 183)</div>
                 </div>
                 <div class="back">
                     <h2>III. The Four Pillars</h2>
@@ -179,7 +468,8 @@
                         <li><b>Rites:</b> Respectful traditions.</li>
                         <li><b>Compassion:</b> Mutual aid for the poor.</li>
                     </ul>
-                    <div class="quote-box">"The great man regards Heaven and earth and the myriad things as one body." (p. 272)</div>
+                    <div class="quote-box">"Knowledge is the beginning of action and action the completion of knowledge." (p. 11)
+</div>
                 </div>
             </div>
 
@@ -187,12 +477,14 @@
                 <div class="front">
                     <h2>IV. Teaching with Joy</h2>
                     <p><span class="first-letter">W</span>ang believed forced virtue was fake. To teach the compact, he used music and poetry to make the heart happy.</p>
-                    <div class="quote-box">"Children like to play... like the sprouting of grass... if they are destroyed by excessive restraint, they will wither." (p. 182)</div>
+                    <div class="quote-box">"Generally speaking, it is the nature of young boys to love to play... Like plants beginning to sprout, if they are allowed to grow freely, they will develop smoothly." (p. 183)
+</div>
                 </div>
                 <div class="back">
                     <h2>V. Knowing is Doing</h2>
                     <p><span class="first-letter">T</span>he final takeaway: Knowledge and Action are <b>One</b>. You don't "study" the compact; you live it.</p>
-                    <div class="quote-box">"Knowledge is the beginning of practice; doing is the completion of knowing." (p. 10)</div>
+                    <div class="quote-box">"The great man regards Heaven, Earth, and the myriad things as one body. He regards the world as one family and the country as one person." (p. 272)
+</div>
                 </div>
             </div>
 
@@ -219,60 +511,141 @@
             </div>
         </div>
         <div class="nav-btns">
+            
+            <div class="music-console">
+    <h3>Scholar's Tunes</h3>
+    <button id="musicToggle">Play 🎵</button>
+    
+    <div class="volume-container">
+        <label>Volume</label>
+        <input type="range" id="volumeSlider" min="0" max="100" value="50">
+    </div>
+</div>
             <button id="prevBtn">Previous Page</button>
             <button id="nextBtn">Next Page</button>
         </div>
     </div>
+    <!-- Desk Props -->
+         <a href="wang.pdf" target="_blank" class="brush-link">
+<img src="desk.png" class="desk-prop brush" alt="Calligraphy Brush">
+         </a>
+
+<img src="teaset.png" class="desk-prop tea-set" id="teapotTrigger" alt="Scholar's Tea Set">
+
+<audio id="teaSound">
+    <source src="tea-pouring.mp3" type="audio/mpeg">
+</audio>
+
+
+    <!-- Villager Pop-up Modal -->
+<div id="villagerPopup" class="villager-modal">
+    <div class="villager-content">
+        <span class="close-popup">&times;</span>
+        <img src="farm.png" alt="Ming Villager" class="villager-img">
+        <div class="speech-bubble">
+            "Psst! Did you hear? Zhang's at it again. He's got 'lonely' chickens in his pockets! Don't let him tell you it's his <em>Liangzhi</em> acting up..."
+        </div>
+    </div>
+</div>
 
     <script>
-        const prevBtn = document.querySelector("#prevBtn");
-        const nextBtn = document.querySelector("#nextBtn");
-        const p1 = document.querySelector("#p1");
-        const p2 = document.querySelector("#p2");
-        const p3 = document.querySelector("#p3");
-        const p4 = document.querySelector("#p4");
+const prevBtn = document.querySelector("#prevBtn");
+const nextBtn = document.querySelector("#nextBtn");
+const p1 = document.querySelector("#p1");
+const p2 = document.querySelector("#p2");
+const p3 = document.querySelector("#p3");
+const p4 = document.querySelector("#p4");
+const modal = document.getElementById("villagerPopup");
+const closeBtn = document.querySelector(".close-popup");
+const music = document.getElementById('bgMusic');
+const musicBtn = document.getElementById('musicToggle');
+const volumeSlider = document.getElementById('volumeSlider');
 
-        let currentState = 1;
+let currentState = 1;
 
-        nextBtn.addEventListener("click", () => {
-            if (currentState === 1) {
-                p1.style.zIndex = 10; p1.classList.add("flipped");
-                setTimeout(() => { p1.style.zIndex = 1; }, 1000);
-                currentState++;
-            } else if (currentState === 2) {
-                p2.style.zIndex = 10; p2.classList.add("flipped");
-                setTimeout(() => { p2.style.zIndex = 2; }, 1000);
-                currentState++;
-            } else if (currentState === 3) {
-                p3.style.zIndex = 10; p3.classList.add("flipped");
-                setTimeout(() => { p3.style.zIndex = 3; }, 1000);
-                currentState++;
-            } else if (currentState === 4) {
-                p4.style.zIndex = 10; p4.classList.add("flipped");
-                setTimeout(() => { p4.style.zIndex = 4; }, 1000);
-                currentState++;
-            }
-        });
+nextBtn.addEventListener("click", () => {
+    if (currentState === 1) {
+        p1.style.zIndex = 10; p1.classList.add("flipped");
+        setTimeout(() => { p1.style.zIndex = 1; }, 1000);
+        currentState++;
+    } else if (currentState === 2) {
+        p2.style.zIndex = 10; p2.classList.add("flipped");
+        setTimeout(() => { p2.style.zIndex = 2; }, 1000);
+        currentState++;
+    } else if (currentState === 3) {
+        p3.style.zIndex = 10; p3.classList.add("flipped");
+        setTimeout(() => { p3.style.zIndex = 3; }, 1000);
+        
+        // TRIGGER POPUP: Only when flipping to the report
+        setTimeout(() => { modal.style.display = "flex"; }, 100); 
+        
+        currentState++;
+    } else if (currentState === 4) {
+        p4.style.zIndex = 10; p4.classList.add("flipped");
+        setTimeout(() => { p4.style.zIndex = 4; }, 1000);
+        currentState++;
+    }
+});
 
-        prevBtn.addEventListener("click", () => {
-            if (currentState === 2) {
-                p1.style.zIndex = 10; p1.classList.remove("flipped");
-                setTimeout(() => { p1.style.zIndex = 3; }, 1000);
-                currentState--;
-            } else if (currentState === 3) {
-                p2.style.zIndex = 10; p2.classList.remove("flipped");
-                setTimeout(() => { p2.style.zIndex = 2; }, 1000);
-                currentState--;
-            } else if (currentState === 4) {
-                p3.style.zIndex = 10; p3.classList.remove("flipped");
-                setTimeout(() => { p3.style.zIndex = 1; }, 1000);
-                currentState--;
-            } else if (currentState === 5) {
-                p4.style.zIndex = 10; p4.classList.remove("flipped");
-                setTimeout(() => { p4.style.zIndex = 0; }, 1000);
-                currentState--;
-            }
-        });
-    </script>
+prevBtn.addEventListener("click", () => {
+    if (currentState === 2) {
+        p1.style.zIndex = 10; p1.classList.remove("flipped");
+        setTimeout(() => { p1.style.zIndex = 3; }, 1000);
+        currentState--;
+    } else if (currentState === 3) {
+        p2.style.zIndex = 10; p2.classList.remove("flipped");
+        setTimeout(() => { p2.style.zIndex = 2; }, 1000);
+        currentState--;
+    } else if (currentState === 4) {
+        p3.style.zIndex = 10; p3.classList.remove("flipped");
+        setTimeout(() => { p3.style.zIndex = 1; }, 1000);
+        currentState--;
+    } else if (currentState === 5) {
+        p4.style.zIndex = 10; p4.classList.remove("flipped");
+        setTimeout(() => { p4.style.zIndex = 0; }, 1000);
+        currentState--;
+    }
+});
+
+// Music Toggle
+musicBtn.addEventListener('click', function() {
+    if (music.paused) {
+        music.play();
+        musicBtn.textContent = "Pause Music 🔇";
+    } else {
+        music.pause();
+        musicBtn.textContent = "Play Music 🎵";
+    }
+});
+
+// Volume Slider
+volumeSlider.addEventListener('input', function() {
+    music.volume = this.value / 100; // Fixed: using 'music' instead of 'bgMusic'
+});
+
+// Modal Close Logic
+closeBtn.onclick = () => modal.style.display = "none";
+window.onclick = (event) => {
+    if (event.target == modal) modal.style.display = "none";
+}
+
+const teapot = document.getElementById('teapotTrigger');
+const teaAudio = document.getElementById('teaSound');
+
+if (teapot && teaAudio) {
+    teapot.addEventListener('click', () => {
+    // Reset the sound to the start so you can click it multiple times rapidly
+    teaAudio.currentTime = 0; 
+    
+    // Set a gentle volume (0.0 to 1.0)
+    teaAudio.volume = 0.5; 
+    
+    // Play the tea pouring sound
+    teaAudio.play();
+    
+    console.log("Pouring tea for the Master...");
+});
+}
+</script>
 </body>
 </html>
