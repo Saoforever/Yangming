@@ -10,7 +10,7 @@
             background-image: url("https://empyreantrail.wordpress.com/wp-content/uploads/2023/03/wang-yangming-world-1.jpg?w=920&h=666&crop=1"); 
             background-size: cover; background-position: center; background-repeat: no-repeat;
             display: flex; justify-content: center; align-items: center; 
-            height: 100vh; width: 100vw; overflow: hidden; font-family: 'Georgia', serif; 
+            min-height: 100VH; width: 100%; overflow: hidden; font-family: 'Georgia', serif; 
             box-shadow: inset 0 0 300px rgba(0,0,0,0.9); 
         }
 
@@ -117,6 +117,11 @@
 #p4 .back {
     background-color: #fdf2e2 !important;
     background-image: none; /* Removes the parchment map texture for a cleaner look */
+}
+
+.page, .front, .back, .book-back {
+    width: 100%;
+    height: 100%;
 }
         .front, .back, .book-back {
     border-radius: 0 5px 5px 0; /* Smooths out the outer corners */
@@ -612,9 +617,7 @@
     /* 2. Center the book and scale it down to fit the screen */
     .book { 
         margin-left: 0; /* Remove the side offset needed for desktop */
-        transform: scale(0.7); /* Shrink the whole book to 70% size */
     }
-
     /* 3. Adjust the Villager Popup for smaller screens */
     .villager-content {
         flex-direction: column;
@@ -631,8 +634,7 @@
 
     /* 4. Hide or reposition props so they don't block the book */
     .brush-link, .tea-set {
-        transform: scale(0.6);
-        bottom: 10px;
+        display: none;
     }
     .tea-set { top: auto; bottom: 20px; right: 2%; }
 
@@ -644,20 +646,45 @@
         padding: 10px;
     }
     #volumeSlider { height: 50px; }
+
+    .nav-btns {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.nav-btns button {
+    flex: 1;
+    min-width: 120px;
+} 
+p {
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
+}
+
+h2 {
+    font-size: clamp(1rem, 3vw, 1.4rem);
+}
 }
 
 @media (max-width: 480px) {
-    .book { transform: scale(0.5); } /* Even smaller for tiny phones */
     h2 { font-size: 1.2rem; }
     p { font-size: 0.8rem; }
     .first-letter { font-size: 2.5rem; }
+}
+
+@media (min-width: 768px) {
+    .brush-link, .tea-set {
+        display: block;
+    }
 }
 
     </style>
 </head>
 <body>
 
-    <!-- Music Invitation Popup -->
+<!-- Music Invitation Popup -->
 <div id="welcomePopup" class="welcome-modal">
     <div class="welcome-content">
         <h2 style="color: #8b5a2b; border-bottom: 2px solid #8b5a2b;">Welcome to the Study</h2>
@@ -669,131 +696,163 @@
     </div>
 </div>
 
-    <div class="bg-char char-left">德</div>
+<div class="bg-char char-left">德</div>
 <div class="bg-char char-right">心</div>
 
+<audio id="bgMusic" loop>
+    <source src="bg-music.mp3" type="audio/mpeg">
+</audio>
 
-    <audio id="bgMusic" loop>
-        <source src="bg-music.mp3" type="audio/mpeg">
-    </audio>
+<div class="room">
+    <div class="book" id="book">
 
-    <div class="room">
-        <div class="book" id="book">
-            <div class="book-back"></div>
-            
-            <div class="page" id="p1">
-                <div class="front">
-                    <h1 style="font-family: serif; color: #d4af37; margin:0;">THE COMMUNITY COMPACT</h1>
-                    <p style="font-style: italic; border-top: 1px solid #d4af37; padding-top: 10px;">A Lesson by Wang Yangming</p>
-                </div>
-                <div class="back">
-                    <h2>I. The Big Picture</h2>
-                    <p><span class="first-letter">W</span>ang Yangming (1472-1529) was a general and a philosopher. He was sent to govern regions filled with crime and rebellion.</p>
-                    <p>Instead of just using iron-fisted laws, he wanted to reach the <b>heart</b>. He believed every human has an "Innate Knowledge" of good.</p>
-                    <div class="quote-box">"The faculty of innate knowledge is to know good and evil. The investigation of things is to do good and to remove evil." (pp. 243)
-                </div>
+        <!-- Pages -->
+        <div class="page" id="p1">
+            <div class="front">
+                <h1 style="font-family: serif; color: #d4af37; margin:0;">THE COMMUNITY COMPACT</h1>
+                <p style="font-style: italic; border-top: 1px solid #d4af37; padding-top: 10px;">A Lesson by Wang Yangming</p>
+            </div>
+            <div class="back">
+                <h2>I. The Big Picture</h2>
+                <p><span class="first-letter">W</span>ang Yangming (1472-1529) was a general and a philosopher. He was sent to govern regions filled with crime and rebellion.</p>
+                <p>Instead of just using iron-fisted laws, he wanted to reach the <b>heart</b>. He believed every human has an "Innate Knowledge" of good.</p>
+                <div class="quote-box">
+                    "The faculty of innate knowledge is to know good and evil. The investigation of things is to do good and to remove evil." (pp. 243)
                 </div>
             </div>
-
-            <div class="page" id="p2">
-                <div class="front">
-                    <h2>II. The Mirror & Dust</h2>
-                    <p><span class="first-letter">L</span>iangzhi (Innate Knowledge) is like a mirror. It is naturally bright and reflects what is right.</p>
-                    <p>However, selfish desires and bad habits are like <b>dust</b> that covers the mirror. The Community Compact is a way for the village to "polish" their mirrors together.</p>
-                    <div class="quote-box">"As the habits of memorization, recitation, and the writing of flowery compositions of later generations arose, the teachings of ancient kings disappeared." (p. 183)</div>
-                </div>
-                <div class="back">
-                    <h2>III. The Four Pillars</h2>
-                    <p><span class="first-letter">H</span>ere is the "Meat" of the compact. It had 4 main goals:</p>
-                    <ul>
-                        <li><b>Encourage Virtue:</b> Rewards for good deeds.</li>
-                        <li><b>Reform Faults:</b> Private correction of mistakes.</li>
-                        <li><b>Rites:</b> Respectful traditions.</li>
-                        <li><b>Compassion:</b> Mutual aid for the poor.</li>
-                    </ul>
-                    <div class="quote-box">"Knowledge is the beginning of action and action the completion of knowledge." (p. 11)
-</div>
-                </div>
-            </div>
-
-            <div class="page" id="p3">
-                <div class="front">
-                    <h2>IV. Teaching with Joy</h2>
-                    <p><span class="first-letter">W</span>ang believed forced virtue was fake. To teach the compact, he used music and poetry to make the heart happy.</p>
-                    <div class="quote-box">"Generally speaking, it is the nature of young boys to love to play... Like plants beginning to sprout, if they are allowed to grow freely, they will develop smoothly." (p. 183)
-</div>
-                </div>
-                <div class="back">
-                    <h2>V. Knowing is Doing</h2>
-                    <p><span class="first-letter">T</span>he final takeaway: Knowledge and Action are <b>One</b>. You don't "study" the compact; you live it.</p>
-                    <div class="quote-box">"The great man regards Heaven, Earth, and the myriad things as one body. He regards the world as one family and the country as one person." (p. 272)
-</div>
-                </div>
-            </div>
-
-            <div class="page" id="p4">
-                <div class="front incident-report">
-                    <div class="report-header">COMMUNITY VIOLATION</div>
-                    <div class="report-field"><b>Offender:</b> Neighbor Zhang</div>
-                    <div class="report-field"><b>Location:</b> Southern Hen-Coop</div>
-                    <div class="report-field"><b>Description:</b> Attempted chicken larceny.</div>
-                    <div class="report-field"><b>Statement:</b> Zhang claimed his <em>Liangzhi</em> told him the chicken "looked lonely."</div>
-                    <p style="margin-top: 20px; font-weight: bold; color: #5d4037;">Magistrate Wang’s Ruling:</p>
-                    <p style="font-size: 0.85rem; line-height: 1.4;">"Zhang has confused <em>Liangzhi</em> with 'Hunger.' As punishment, Zhang will repair the village fence. Action and Knowledge are one—especially when chickens are involved."</p>
-                    <div style="text-align: center;"><div class="official-stamp">Refined via Practice</div></div>
-                </div>
-                <div class="back" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-                    <h2>The Final Lesson</h2>
-                    <p>By treating the village as "One Body," even a chicken thief can be brought back into harmony.</p>
-                    <hr style="width: 50%; border: 1px solid #8b5a2b; margin: 20px 0;">
-                    <div class="wang-seal">
-    陽明<br>王印
-</div>
-<p style="font-size: 0.6rem; text-align: center;">Master Yangming's Seal of Authenticity</p>
-                </div>
-            </div>
-            <div class="book-back">
-    <div class="final-map-container">
-        <!-- Title for the map artifact -->
-        <h3 class="map-title">PREFECTURE OF GANNAN</h3>
-        
-        <div class="map-frame-final">
-            <!-- Your saved map image -->
-            <img src="gannanMap.jpg" 
-     id="gannanMap" 
-     class="map-thumbnail" 
-     style="background-color: #d4a373; height: 150px; object-fit: cover;"
-     alt="Click to expand map">
-            <!-- Optional: The bouncing pin to show the primary location -->
-            <div class="pin" style="top: 72%; left: 58%;">📍</div>
         </div>
-        
-        <p class="map-quote">
-            "The mountains are high and the rivers long; may the peace of the Compact endure."
+
+        <div class="page" id="p2">
+            <div class="front">
+                <h2>II. The Mirror & Dust</h2>
+                <p><span class="first-letter">L</span>iangzhi (Innate Knowledge) is like a mirror. It is naturally bright and reflects what is right.</p>
+                <p>However, selfish desires and bad habits are like <b>dust</b> that covers the mirror. The Community Compact is a way for the village to "polish" their mirrors together.</p>
+                <div class="quote-box">
+                    "As the habits of memorization, recitation, and the writing of flowery compositions of later generations arose, the teachings of ancient kings disappeared." (p. 183)
+                </div>
+            </div>
+            <div class="back">
+                <h2>III. The Four Pillars</h2>
+                <p><span class="first-letter">H</span>ere is the "Meat" of the compact. It had 4 main goals:</p>
+                <ul>
+                    <li><b>Encourage Virtue:</b> Rewards for good deeds.</li>
+                    <li><b>Reform Faults:</b> Private correction of mistakes.</li>
+                    <li><b>Rites:</b> Respectful traditions.</li>
+                    <li><b>Compassion:</b> Mutual aid for the poor.</li>
+                </ul>
+                <div class="quote-box">
+                    "Knowledge is the beginning of action and action the completion of knowledge." (p. 11)
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="p3">
+            <div class="front">
+                <h2>IV. Teaching with Joy</h2>
+                <p><span class="first-letter">W</span>ang believed forced virtue was fake. To teach the compact, he used music and poetry to make the heart happy.</p>
+                <div class="quote-box">
+                    "Generally speaking, it is the nature of young boys to love to play... Like plants beginning to sprout, if they are allowed to grow freely, they will develop smoothly." (p. 183)
+                </div>
+            </div>
+            <div class="back">
+                <h2>V. Knowing is Doing</h2>
+                <p><span class="first-letter">T</span>he final takeaway: Knowledge and Action are <b>One</b>. You don't "study" the compact; you live it.</p>
+                <div class="quote-box">
+                    "The great man regards Heaven, Earth, and the myriad things as one body. He regards the world as one family and the country as one person." (p. 272)
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="p4">
+
+    <div class="front incident-report">
+        <div class="report-header">COMMUNITY VIOLATION</div>
+
+        <div class="report-field">
+            <b>Offender:</b> Neighbor Zhang
+        </div>
+
+        <div class="report-field">
+            <b>Location:</b> Southern Hen-Coop
+        </div>
+
+        <div class="report-field">
+            <b>Description:</b> Attempted chicken larceny.
+        </div>
+
+        <div class="report-field">
+            <b>Statement:</b> Zhang claimed his <em>Liangzhi</em> told him the chicken "looked lonely."
+        </div>
+
+        <p style="margin-top: 20px; font-weight: bold; color: #5d4037;">
+            Magistrate Wang’s Ruling:
+        </p>
+
+        <p style="font-size: 0.85rem; line-height: 1.4;">
+            "Zhang has confused <em>Liangzhi</em> with 'Hunger.' As punishment, Zhang will repair the village fence. Action and Knowledge are one—especially when chickens are involved."
+        </p>
+
+        <div style="text-align: center;">
+            <div class="official-stamp">Refined via Practice</div>
+        </div>
+    </div>
+
+    <div class="back" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+        <h2>The Final Lesson</h2>
+
+        <p>
+            By treating the village as "One Body," even a chicken thief can be brought back into harmony.
+        </p>
+
+        <hr style="width: 50%; border: 1px solid #8b5a2b; margin: 20px 0;">
+
+        <div class="wang-seal">
+            陽明<br>王印
+        </div>
+
+        <p style="font-size: 0.6rem; text-align: center;">
+            Master Yangming's Seal of Authenticity
         </p>
     </div>
+
 </div>
 
+        <!-- Back Cover Map -->
+        <div class="book-back">
+            <div class="final-map-container">
+                <h3 class="map-title">PREFECTURE OF GANNAN</h3>
+                <div class="map-frame-final">
+                    <img src="gannanMap.jpg" id="gannanMap" class="map-thumbnail" alt="Click to expand map">
+                    <div class="pin">📍</div>
+                </div>
+                <p class="map-quote">
+                    "The mountains are high and the rivers long; may the peace of the Compact endure."
+                </p>
+            </div>
         </div>
-        <div class="nav-btns">
-            
-            <div class="music-console">
-    <h3>Scholar's Tunes</h3>
-    <button id="musicToggle">Play 🎵</button>
-    
-    <div class="volume-container">
-        <label>Volume</label>
-        <input type="range" id="volumeSlider" min="0" max="100" value="10">
+
+    </div>
+
+    <!-- Controls -->
+    <div class="nav-btns">
+        <div class="music-console">
+            <h3>Scholar's Tunes</h3>
+            <button id="musicToggle">Play 🎵</button>
+            <div class="volume-container">
+                <label>Volume</label>
+                <input type="range" id="volumeSlider" min="0" max="100" value="10">
+            </div>
+        </div>
+
+        <button id="prevBtn">Previous Page</button>
+        <button id="nextBtn">Next Page</button>
     </div>
 </div>
-            <button id="prevBtn">Previous Page</button>
-            <button id="nextBtn">Next Page</button>
-        </div>
-    </div>
-    <!-- Desk Props -->
-         <a href="wang.pdf" target="_blank" class="brush-link">
-<img src="desk.png" class="desk-prop brush" alt="Calligraphy Brush">
-         </a>
+
+<!-- Props -->
+<a href="wang.pdf" target="_blank" class="brush-link">
+    <img src="desk.png" class="desk-prop brush" alt="Calligraphy Brush">
+</a>
 
 <img src="teaset.png" class="desk-prop tea-set" id="teapotTrigger" alt="Scholar's Tea Set">
 
@@ -801,42 +860,45 @@
     <source src="tea-pouring.mp3" type="audio/mpeg">
 </audio>
 
-
-    <!-- Villager Pop-up Modal -->
+<!-- Villager Modal -->
 <div id="villagerPopup" class="villager-modal">
     <div class="villager-content">
         <span class="close-popup">&times;</span>
         <img src="farm.png" alt="Ming Villager" class="villager-img">
+
         <div class="speech-bubble">
             "Psst! Did you hear? Zhang's at it again. He's got 'lonely' chickens in his pockets! Don't let him tell you it's his <em>Liangzhi</em> acting up..."
         </div>
+
         <div class="verdict-box" id="verdictBox" style="display:none;">
-    <p><strong>Your Verdict, Magistrate?</strong></p>
-    <button onclick="judge('punish')">Punish: 50 Lashes</button>
-    <button onclick="judge('reform')">Reform: Fix the Fence</button>
-</div>
+            <p><strong>Your Verdict, Magistrate?</strong></p>
+            <button onclick="judge('punish')">Punish: 50 Lashes</button>
+            <button onclick="judge('reform')">Reform: Fix the Fence</button>
+        </div>
     </div>
 </div>
 
-<!-- Hidden Map Modal (Expanded View) -->
+<!-- Map Modal -->
 <div id="mapModal" class="villager-modal" style="z-index: 4000;">
     <div class="map-expanded">
         <span class="close-map">&times;</span>
-        <h2 style="border-bottom: 2px solid #8b5a2b; padding-bottom: 5px;">The Region of Gannan</h2>
-        <p style="font-size: 0.85rem; color: #5d4037; margin-bottom: 15px;">
+        <h2>The Region of Gannan</h2>
+        <p style="font-size: 0.85rem; color: #5d4037;">
             Wang Yangming implemented the first Compact here in 1518 to restore order to the mountainous villages of southern Jiangxi.
         </p>
-        <div class="map-hotspot">
-           <img src="https://transparenttextures.com" 
-     style="width: 100%; height: 400px; background-color: #d4a373; border: 1px solid #8b5a2b;" 
-     alt="Gannan Detailed View">
 
-            <!-- The bouncing pin -->
-            <div class="pin" style="top: 62%; left: 48%;">📍</div>
+        <div class="map-hotspot">
+            <img src="https://transparenttextures.com"
+                 style="width: 100%; height: 400px; background-color: #d4a373;"
+                 alt="Gannan Detailed View">
+            <div class="pin">📍</div>
         </div>
-        <p style="font-size: 0.7rem; margin-top: 10px; font-style: italic;">Southern Kiangsi Province</p>
+
+        <p style="font-size: 0.7rem;">Southern Kiangsi Province</p>
     </div>
 </div>
+
+</body>
 
     <script>
 const prevBtn = document.querySelector("#prevBtn");
@@ -845,45 +907,60 @@ const p1 = document.querySelector("#p1");
 const p2 = document.querySelector("#p2");
 const p3 = document.querySelector("#p3");
 const p4 = document.querySelector("#p4");
+
 const modal = document.getElementById("villagerPopup");
 const closeBtn = document.querySelector(".close-popup");
+
 const music = document.getElementById('bgMusic');
-        music.volume = 0.1; 
+music.volume = 0.1;
+
 const musicBtn = document.getElementById('musicToggle');
 const volumeSlider = document.getElementById('volumeSlider');
+
 const welcomeModal = document.getElementById("welcomePopup");
 const yesBtn = document.getElementById("yesMusic");
 const noBtn = document.getElementById("noMusic");
+
 const mapImg = document.getElementById("gannanMap");
 const mapModal = document.getElementById("mapModal");
 const closeMap = document.querySelector(".close-map");
 
+const teapot = document.getElementById('teapotTrigger');
+const teaAudio = document.getElementById('teaSound');
 
 let currentState = 1;
 
+/* =========================
+   PAGE TURNING
+========================= */
 nextBtn.addEventListener("click", () => {
     if (currentState === 1) {
-        p1.style.zIndex = 10; p1.classList.add("flipped");
+        p1.style.zIndex = 10;
+        p1.classList.add("flipped");
         setTimeout(() => { p1.style.zIndex = 1; }, 1000);
         currentState++;
+
     } else if (currentState === 2) {
-        p2.style.zIndex = 10; p2.classList.add("flipped");
+        p2.style.zIndex = 10;
+        p2.classList.add("flipped");
         setTimeout(() => { p2.style.zIndex = 2; }, 1000);
         currentState++;
+
     } else if (currentState === 3) {
-    p3.style.zIndex = 10;
-    p3.classList.add("flipped");
-    setTimeout(() => { p3.style.zIndex = 3; }, 1000);
-    
-    // TRIGGER POPUP AND VERDICT BOX
-    setTimeout(() => { 
-        modal.style.display = "flex"; 
-        document.getElementById("verdictBox").style.display = "block"; // <-- ADD THIS LINE
-    }, 100); 
-    
-    currentState++;
+        p3.style.zIndex = 10;
+        p3.classList.add("flipped");
+        setTimeout(() => { p3.style.zIndex = 3; }, 1000);
+
+        setTimeout(() => {
+            modal.style.display = "flex";
+            document.getElementById("verdictBox").style.display = "block";
+        }, 100);
+
+        currentState++;
+
     } else if (currentState === 4) {
-        p4.style.zIndex = 10; p4.classList.add("flipped");
+        p4.style.zIndex = 10;
+        p4.classList.add("flipped");
         setTimeout(() => { p4.style.zIndex = 4; }, 1000);
         currentState++;
     }
@@ -891,26 +968,35 @@ nextBtn.addEventListener("click", () => {
 
 prevBtn.addEventListener("click", () => {
     if (currentState === 2) {
-        p1.style.zIndex = 10; p1.classList.remove("flipped");
+        p1.style.zIndex = 10;
+        p1.classList.remove("flipped");
         setTimeout(() => { p1.style.zIndex = 3; }, 1000);
         currentState--;
+
     } else if (currentState === 3) {
-        p2.style.zIndex = 10; p2.classList.remove("flipped");
+        p2.style.zIndex = 10;
+        p2.classList.remove("flipped");
         setTimeout(() => { p2.style.zIndex = 2; }, 1000);
         currentState--;
+
     } else if (currentState === 4) {
-        p3.style.zIndex = 10; p3.classList.remove("flipped");
+        p3.style.zIndex = 10;
+        p3.classList.remove("flipped");
         setTimeout(() => { p3.style.zIndex = 1; }, 1000);
         currentState--;
+
     } else if (currentState === 5) {
-        p4.style.zIndex = 10; p4.classList.remove("flipped");
+        p4.style.zIndex = 10;
+        p4.classList.remove("flipped");
         setTimeout(() => { p4.style.zIndex = 0; }, 1000);
         currentState--;
     }
 });
 
-// Music Toggle
-musicBtn.addEventListener('click', function() {
+/* =========================
+   MUSIC
+========================= */
+musicBtn.addEventListener('click', () => {
     if (music.paused) {
         music.play();
         musicBtn.textContent = "Pause Music 🔇";
@@ -920,32 +1006,8 @@ musicBtn.addEventListener('click', function() {
     }
 });
 
-// Volume Slider
-volumeSlider.addEventListener('input', function() {
-    music.volume = this.value / 100; // Fixed: using 'music' instead of 'bgMusic'
-});
-
-// Modal Close Logic
-closeBtn.onclick = () => modal.style.display = "none";
-window.onclick = (event) => {
-    if (event.target == modal) modal.style.display = "none";
-}
-
-const teapot = document.getElementById('teapotTrigger');
-const teaAudio = document.getElementById('teaSound');
-
-if (teapot && teaAudio) {
-    teapot.addEventListener('click', () => {
-    // Reset the sound to the start so you can click it multiple times rapidly
-    teaAudio.currentTime = 0; 
-    
-    // Set a gentle volume (0.0 to 1.0)
-    teaAudio.volume = 0.4; 
-    
-    // Play the tea pouring sound
-    teaAudio.play();
-    
-    console.log("Pouring tea for the Master...");
+volumeSlider.addEventListener('input', () => {
+    music.volume = volumeSlider.value / 100;
 });
 
 yesBtn.addEventListener("click", () => {
@@ -958,36 +1020,51 @@ noBtn.addEventListener("click", () => {
     welcomeModal.style.display = "none";
 });
 
+/* =========================
+   MODALS
+========================= */
+closeBtn.onclick = () => modal.style.display = "none";
+
+window.addEventListener("click", (event) => {
+    if (event.target == modal) modal.style.display = "none";
+});
+
+/* =========================
+   TEA SOUND
+========================= */
+if (teapot && teaAudio) {
+    teapot.addEventListener('click', () => {
+        teaAudio.currentTime = 0;
+        teaAudio.volume = 0.4;
+        teaAudio.play();
+    });
+}
+
+/* =========================
+   JUDGEMENT
+========================= */
 function judge(choice) {
     const bubble = document.querySelector(".speech-bubble");
     const vBox = document.getElementById("verdictBox");
-    
-    if(choice === 'punish') {
-        bubble.innerHTML = "<strong>Master Yangming always says:</strong> 'Lashing only fixes the body, not the mirror of the heart!' <br><br>Action and Knowledge must be reformed together. Turn the page to see the Master's way.";
+
+    if (choice === 'punish') {
+        bubble.innerHTML = "<strong>Master Yangming always says:</strong> 'Lashing only fixes the body, not the mirror of the heart!'<br><br>Action and Knowledge must be reformed together. Turn the page to see the Master's way.";
     } else {
-        bubble.innerHTML = "<strong>Wise choice!</strong> You are following your <em>Liangzhi</em>. <br><br>Farmer agreed: Zhang must practice virtue to find it again. Turn the page to see the ruling.";
+        bubble.innerHTML = "<strong>Wise choice!</strong> You are following your <em>Liangzhi</em>.<br><br>Farmer agreed: Zhang must practice virtue to find it again. Turn the page to see the ruling.";
     }
-    vBox.style.display = "none"; // Hide the buttons after the choice is made
+
+    vBox.style.display = "none";
 }
 
+/* =========================
+   MAP
+========================= */
 mapImg.onclick = () => mapModal.style.display = "flex";
 closeMap.onclick = () => mapModal.style.display = "none";
 
-// Close map if clicking outside
 window.addEventListener('click', (e) => {
     if (e.target == mapModal) mapModal.style.display = "none";
 });
-
-mapThumbnail.addEventListener("click", (e) => {
-    e.stopPropagation(); // Prevents the click from flipping the page
-    overlay.style.display = "flex";
-});
-
-document.querySelector(".close-overlay").onclick = () => {
-    overlay.style.display = "none";
-};
-
-}
 </script>
 </body>
 </html>
